@@ -21,7 +21,7 @@ const Navbar = () => {
         <h1 className="text-2xl mt-6">Categories</h1>
         <div className="flex flex-wrap gap-8 mx-auto font-medium py-4 text-blackish">
           {categories?.map((category: string, index: number) => (
-            <Link className="navbar__link relative" href="#" key={index}>
+            <Link className="navbar__link relative" href={`/?category=${category}`} key={index}>
               {category.charAt(0).toUpperCase() + category.slice(1)}
             </Link>
           ))}
