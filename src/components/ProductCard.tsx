@@ -1,12 +1,13 @@
 import Link from "next/link";
-import React from "react";
+import React, { useContext } from "react";
 
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import { Context } from "./context";
 
 interface propsType {
   img: string;
   title: string;
-id:number;
+  id: number;
   rating: number;
   price: string;
   discount: number;
@@ -17,7 +18,7 @@ id:number;
 const ProductCard: React.FC<propsType> = ({
   img,
   title,
-id,
+  id,
   rating,
   price,
   discount,
@@ -81,19 +82,39 @@ id,
         return null;
     }
   };
+  const { setcart,cart } = useContext(Context);
 
   return (
-    <Link href={`/products/${id}`} className="px-4 border cursor-pointer border-gray-200 flex flex-col justify-between rounded-xl max-w-[350px] max-h-[394px] min-w-[350px] min-h-[394px]">
+    <div
+      className="px-4 border cursor-pointer border-gray-200 flex flex-col justify-between rounded-xl max-w-[350px] max-h-[394px] min-w-[350px] min-h-[394px]"
+    >
       <div className="w-[316px] h-[210px]">
-        <img
-          className="w-full h-full"
-          src={img}
-          alt={title}
-        />
+        <img className="w-full h-full" src={img} alt={title} />
       </div>
 
       <div className="space-y-2 py-2">
-        <h2 className="text-black text-lg uppercase">{brand}</h2>
+        <div className="flex items-center justify-between">
+          <h2 className="text-black text-lg uppercase">{brand}</h2>
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              setcart([...cart,{
+                img,
+                title,
+                id,
+                rating,
+                price,
+                discount,
+                stock,
+                brand,
+              }]);
+            }}
+            className="px-4 py-2 rounded-full bg-orange-400 text-white font-[600] text-[20px]"
+          >
+            +
+          </div>
+        </div>
+
         <h2 className="text-accent font-medium uppercase">{title}</h2>
 
         <div>{generateRating(rating)}</div>
@@ -104,7 +125,7 @@ id,
         </div>
         <p className="text-green-700">{stock < 30 ? "Limited Stock" : ""}</p>
       </div>
-    </Link>
+    </div>
   );
 };
 
